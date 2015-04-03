@@ -18,3 +18,7 @@ def is_descending_order(a):
 def generate(size, seed):
     """ generate list of numbers """
     return [int(seed*random.random()) for i in range(size)]
+
+
+
+
