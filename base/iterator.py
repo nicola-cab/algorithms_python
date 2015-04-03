@@ -1,7 +1,6 @@
 class iterator:
     """ iterators are useful objects that could be used to walk through a collection """
     def __init__(self, data):
-        """ get data to scroll onto"""
         self.__data  = data
         self.__index = 0
         self.__len   = len(self.__data)
