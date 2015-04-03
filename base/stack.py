@@ -6,7 +6,6 @@ class stack:
     def __init__(self):
         """ stack ctor: initialize empty stack """
         self.__list = []; 
-        pass
         
     def push(self, element):
         """ add new item into stack"""
