@@ -1,0 +1,7 @@
+### compiled files ###
+*.pyc
+*.o
+
+### swp files ###
+*.swp
+

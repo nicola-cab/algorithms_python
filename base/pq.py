@@ -1,4 +1,4 @@
-from collections import deque
+from iterator import iterator
 class pq:
     """ 
         Priority queue implementation.
@@ -14,17 +14,23 @@ class pq:
         ctor for my priority queue. it takes:
         -1 the data to process
         -2 the order of the keys to apply
+        it inits a index variable in order to insert into pq
         """
-        self.__data  = deque([])
+        #note: using a list could potentially slow down the delete operation due link operations after a deletation. Python has heappq
+        self.__data  = [0] 
         self.__comparator = comparator
+        self.__size     = 0
     
     def insert(self, elem):
         """ 
         insert into the priority queue accordingly with the comparator chosen.
-        - realize min pq if keys must be less equal to father's one
-        - realize max pq if keys must be less equal to father's one
+        - realize min pq if keys are less equal to father's key
+        - realize max pq if keys are greater equal to father's key
         """
-        pass
+        self.__size += 1 
+        self.__data.append(elem)
+        self.__insert_heapify(self.__size)
+
     
     def delElem(self):
         """ 
@@ -32,17 +38,24 @@ class pq:
         - delMin if the user selected to set up a min pq
         - delMax if the user selected to set up a max pq        
         """
-        pass
+        if self.isEmpty():
+            raise Exception("Priority queue is empty")
+
+        key = self.__data[1]
+        self.__data[1] = self.__data[self.__size]
+        self.__size -= 1
+        self.__data.pop()
+        self.__delete_heapify(1)
+        
+        return key
     
     def isEmpty(self):
         """ return true if the pq is empty"""
-        if not self.__data:
-            return True
-        return False
+        return self.__size == 0
     
     def size(self):
         """ return number of elements """
-        return len(self.__data)
+        return self.__size
     
     def get(self):
         """ 
@@ -50,18 +63,70 @@ class pq:
         - min is returned if user set up a min pq
         - max is returned if user set up a max pq
         """
+        if self.isEmpty():
+            raise Exception("Priority queue is empty")
+
         return self.__data[1] #indexes start from 1
+
+    def __iter__(self):
+        """ iterate through priority queueu using iterator utility """
+        return iterator(self.__data[1:])
     
     ######################
     #  utilities methods #
     ######################
     
-    def __swim(self, k):
-        """ 
-            this method solve the scenario in which the key becomes greater than father's one.
-            Eliminating the variation means:
-            -1 exchange key of the child with parent
-            -2 continue till heap is not ok
+    def __insert_heapify(self, k):
         """
-        
-        while k>1 and 
+            Insert could create keys unbalancing in the tree..
+            Coping with this situation  means:
+            -1 exchange key of the child with parent (swimming for leaves to root)
+            -2 continue till heap is not 'heapified' again
+        """
+        while k>1 and self.__comparator(self.__data[k], self.__data[k//2]):
+            #swap keys - swim up in order to get the root of the tree
+            self.__data[k], self.__data[k//2] = self.__data[k//2], self.__data[k]
+            k = k//2
+
+    def __delete_heapify(self, k):
+        """ 
+            delete introduce a potentially need to rebalance the tree.
+            In this case it is needed walk through the tree or subtrees and heapify it:
+            Algorithm explanation:
+            - sink throught the tree till end is reached.
+            - find a key that is breaking the heap (it depends if is min or max heap)
+            - perform a cmp between father and the child's key
+            - swap them only if heap property is violated.
+        """
+        N = self.__size
+        while 2*k <= N:
+            j = 2*k
+
+            #little tip:
+            #
+            # using a generic comparator allowed me to save lines of code.. but the cost to pay is that 
+            # a rule must be followed, infact the comparator is not commutative, than operands a and b 
+            # cannot be swapped. 
+            # This is perfectly legal, since you'd never swap a and b seeing this ' if a < b: '.
+            # The big flaw of this approach is that comparator does not have any information about the operation that 
+            # it is implementing, then programmers cannot read this code and understand immediately what it is doing.
+            #
+            # the rule for thumb should be to think about the comparotor passed and translate it in the equivalent math symbol.
+            # for example:
+            #
+            #   less_comparator(a, b)   -->  a<b ? True: False
+            #   
+            # In this case the firs if it's just checking for the lower key between two childs. at saving its index in j. 
+            # Index j is used to compare child's key with father key using the same comparator and undestand if father and 
+            # and child must be swapped. The process is reated untill father'key is lower than child's key.
+            #
+            if j<N and self.__comparator(self.__data[j+1], self.__data[j]): 
+                j+=1
+            if(not self.__comparator(self.__data[j],self.__data[k])):
+                break
+            self.__data[k], self.__data[j] = self.__data[j], self.__data[k]
+            k = j
+
+
+
+
