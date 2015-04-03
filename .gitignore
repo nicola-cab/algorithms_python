@@ -5,3 +5,6 @@
 ### swp files ###
 *.swp
 
+### python cache ###
+*__pycache__*
+
