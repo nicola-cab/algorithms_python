@@ -12,4 +12,3 @@ def selection_sort(a, cmp):
             if not cmp(a[min], a[j]):
                 min = j
         a[i],a[min] = a[min],a[i]    
-    return a
