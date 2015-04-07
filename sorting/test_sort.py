@@ -6,6 +6,8 @@ if __name__ == "__main__":
     from selection_sort import selection_sort
     from insertion_sort import insertion_sort
     from shell_short import shell_sort
+    from merge_sort import merge_sort
+    #from quick_sort import quick_sort
 
     from base.utils import less_comparator, greater_comparator
     from utils import generate, test_order, is_ascending_order, is_descending_order
@@ -14,6 +16,8 @@ if __name__ == "__main__":
     a = generate(10,10)
     a1 = a[:]
     a2 = a[:]
+    a3 = a[:]
+    a4 = a[:]
     print(a)
 
     print("Testing selection sort")
@@ -30,6 +34,18 @@ if __name__ == "__main__":
     shell_sort(a2, less_comparator)
     print(a2)
     print("shell sort succeeded = ", test_order(a2, less_comparator))
+
+    print("test merge sort")
+    ms = merge_sort(a3, less_comparator)
+    print(a3)
+    print("merge sort succeeded = ", test_order(a3, less_comparator))
+
+    #print("test quick sort")
+    #quick_sort(a4, less_comparator)
+    #print(a4)
+    #print("quick sort succeeded = ", test_order(a3, less_comparator))
+
+
 
 
 
