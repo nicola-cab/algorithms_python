@@ -3,7 +3,6 @@ import random
 
 def test_order(a, cmp):
     for i in range(1, len(a)):
-        print(a[i], a[i-1])
         if not cmp(a[i-1],a[i]):
             return False
     return True
