@@ -1,4 +1,4 @@
-from base.utils import less_comparator, greater_comparator 
+from base.utils import less_comparator, greater_comparator, less_equal_comparator, greater_equal_comparator 
 import random
 
 def test_order(a, cmp):
@@ -9,11 +9,11 @@ def test_order(a, cmp):
 
 def is_ascending_order(a):
     """ test if vector is sorted in ascending order"""
-    return test_order(a, less_comparator)
+    return test_order(a, less_equal_comparator)
 
 def is_descending_order(a):
     """ test if vector is sorted in descending order"""
-    return test_order(a, greater_comparator)
+    return test_order(a, greater_equal_comparator)
 
 def generate(size, seed):
     """ generate list of numbers """

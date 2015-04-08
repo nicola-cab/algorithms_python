@@ -24,6 +24,10 @@ class merge_sort:
         if N <= 1:
             return list
 
+        #
+        #here to really optimize the algorithm. run some faster sort algorithm for small N and return.
+        #
+
         left = []
         right = []
         m = N//2
