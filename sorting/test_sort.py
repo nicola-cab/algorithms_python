@@ -13,7 +13,7 @@ if __name__ == "__main__":
     from utils import generate, test_order, is_ascending_order, is_descending_order
 
     print("Test sorting algorithms")
-    a = generate(10,10)
+    a = generate(5,5)
     a1 = a[:]
     a2 = a[:]
     a3 = a[:]
@@ -36,9 +36,9 @@ if __name__ == "__main__":
     print("shell sort succeeded = ", test_order(a2, less_comparator))
 
     print("test merge sort")
-    ms = merge_sort(a3, less_comparator)
-    print(a3)
-    print("merge sort succeeded = ", test_order(a3, less_comparator))
+    object_ms = merge_sort(a3, less_comparator)
+    print(object_ms.get())
+    print("merge sort succeeded = ", test_order(object_ms.get(), less_comparator))
 
     #print("test quick sort")
     #quick_sort(a4, less_comparator)

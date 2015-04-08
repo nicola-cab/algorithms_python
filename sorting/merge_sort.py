@@ -9,47 +9,59 @@ class merge_sort:
             - recursive sort each half
             - merge two halves
         """
+        self.__a = a
         self.__cmp = cmp
-        b =a[:]
-        self.__sort(a, b, 0, len(a))
+        self.__a = self.__sort(self.__a)
+
+    def get(self):
+        """ get the collection sorted using comparator passed to this class"""
+        return self.__a
         
-    def __sort(self, a, b, lo, hi):
+    def __sort(self, list):
         """ implement recursion and splitting in halves """
-        if hi<=lo:
-            return
+        
+        N = len(list)
+        if N <= 1:
+            return list
 
-        mid = lo + (hi-lo)//2
-        self.__sort(a, b, lo, mid)
-        self.__sort(a, b, mid+1, hi)
-        self.__merge(a, b, lo, mid, hi)
+        left = []
+        right = []
+        m = N//2
+
+        for x in list[:m]:
+            left.append(x)
+
+        for x in list[m:]:
+            right.append(x)
+
+        left  = self.__sort(left)
+        right = self.__sort(right)
+        return self.__merge(left,right)
 
 
-    def __merge( self, a, b, lo, mid, hi):
+    def __merge( self, left, right):
         """
         merge function:
-            - use tmp list
-            - merge 2 halves
+            - meld 2 list: left and right in only one.
         """
-        for i in range(0, hi):
-            b[i] = a[i]
-
-        i = lo
-        j = mid + 1
-        for k in range(0,hi):
-
-            if i>mid:
-                a[k] = b[j]
-                j += 1
-
-            elif j>hi:
-                a[k] = b[i]
-                i += 1
-
-            elif self.__cmp(b[j], b[i]):
-                a[k] = b[j]
-                j += 1
-
+        result = []
+ 
+        #merge left and right
+        while left and right:
+            if self.__cmp(left[0],right[0]):
+                result.append(left[0])
+                left = left[1:]
             else:
-                a[k] = b[i]
-                i += 1
+                result.append(right[0])
+                right = right[1:]
+        
 
+        #add what it's left in left list
+        if left:
+            result += left
+
+        #add what it's left in right list
+        if right:
+            result += right
+
+        return result;
