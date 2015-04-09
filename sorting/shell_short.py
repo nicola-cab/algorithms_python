@@ -13,9 +13,9 @@ def shell_sort(a, cmp):
     N = len(a)
     h = 1
     #find 1/3 of this array (note this parameter depends by the implementation. this is empiric 
-    while h < N/3:  
+    while h < N//3:  
         h = 3*h+1  
-    
+   
     #till I do not process all the elements
     while h>= 1:
         #run the check for h to N
@@ -26,5 +26,5 @@ def shell_sort(a, cmp):
                 if cmp(a[j], a[j-h]):
                     a[j], a[j-h] = a[j-h], a[j] 
                 j=j-h
-        h=h/3
+        h=h//3
 

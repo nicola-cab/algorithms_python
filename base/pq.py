@@ -93,7 +93,7 @@ class pq:
             delete introduce a potentially need to rebalance the tree.
             In this case it is needed walk through the tree or subtrees and heapify it:
             Algorithm explanation:
-            - sink throught the tree till end is reached.
+            - sink through the tree till end is reached.
             - find a key that is breaking the heap (it depends if is min or max heap)
             - perform a cmp between father and the child's key
             - swap them only if heap property is violated.
@@ -105,20 +105,20 @@ class pq:
             #little tip:
             #
             # using a generic comparator allowed me to save lines of code.. but the cost to pay is that 
-            # a rule must be followed, infact the comparator is not commutative, than operands a and b 
-            # cannot be swapped. 
+            # a rule must be followed, infact the comparator is not commutative since the priority queue
+            # must follow a strict ordering. Than operands a and b (relation is not symmetric) cannot be swapped. 
             # This is perfectly legal, since you'd never swap a and b seeing this ' if a < b: '.
             # The big flaw of this approach is that comparator does not have any information about the operation that 
             # it is implementing, then programmers cannot read this code and understand immediately what it is doing.
             #
-            # the rule for thumb should be to think about the comparotor passed and translate it in the equivalent math symbol.
+            # the rule for thumb should be to think about the comparator passed and translate it in the equivalent math symbol.
             # for example:
             #
             #   less_comparator(a, b)   -->  a<b ? True: False
             #   
-            # In this case the firs if it's just checking for the lower key between two childs. at saving its index in j. 
-            # Index j is used to compare child's key with father key using the same comparator and undestand if father and 
-            # and child must be swapped. The process is reated untill father'key is lower than child's key.
+            # In this case the firs if it's just checking for the lower key between two children. at saving its index in j. 
+            # Index j is used to compare child's key with father key using the same comparator and understand if father and 
+            # and child must be swapped. The process is related until father's key is lower than child's key.
             #
             if j<N and self.__comparator(self.__data[j+1], self.__data[j]): 
                 j+=1
