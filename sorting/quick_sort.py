@@ -68,33 +68,33 @@ def __quick_sort(list,s,e):
     if e<=s: 
         return
     
-    p = hoare_partition(list, s, e)
+    p,q = hoare_partition(list, s, e)
     __quick_sort(list, s, p-1)
-    __quick_sort(list, p+1, e)    
+    __quick_sort(list, q+1, e)    
     
 def hoare_partition(list, s, e):
-    i = s + 1
-    j = e   #j is the pivot
     
-    while True:
+    begin = s 
+    end = e
+    v = list[begin]
+    i = begin
+
+    #3-way quick sort.
+    while i <= end:
+
+        #all left to v
+        if list[i] < v:
+            list[begin], list[i] = list[i], list[begin]
+            i += 1
+            begin += 1
         
-        #move x from left to right.
-        while list[i] < list[s]:
-            i += 1 
-            if i == e:
-                break
-        
-        #move j from right to left
-        while list[s] < list[j]:
-            j -= 1
-            if j == s:
-                break
-    
-        #swap if i<j
-        if i>=j:
-            break
+        #all right to v
+        elif list[i] > v:
+            list[end], list[i] = list[i], list[end]
+            end -= 1
+
+        #all equal to pivot
         else:
-            list[i], list[j] = list[j], list[i]
-        
-    list[s], list[j] = list[j], list[s]
-    return j
+            i += 1
+
+    return begin,end

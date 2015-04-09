@@ -9,7 +9,8 @@ if __name__ == "__main__":
     from merge_sort import merge_sort
     from quick_sort import functional_quick_sort
     from quick_sort import quick_sort
-    
+    from heap_sort import heap_sort
+    from counting_sort import counting_sort
 
     from base.utils import less_comparator, greater_comparator, less_equal_comparator
     from utils import generate, test_order, is_ascending_order, is_descending_order
@@ -21,6 +22,10 @@ if __name__ == "__main__":
     a3 = a[:]
     a4 = a[:]
     a5 = a[:]
+    a6 = a[:]
+    a7 = a[:]
+
+    print("Init vector")
     print(a)
 
     print("Testing selection sort")
@@ -53,7 +58,15 @@ if __name__ == "__main__":
     print(a5)
     print("quick sort succeeded = ", is_ascending_order(a5))
 
+    print("Test heap sort")
+    heap_sort(a6, less_comparator)
+    print(a6)
+    print("heap sort suceeded = ", is_ascending_order(a6))
 
+    print("Test counting sort")
+    counting_sort(a7, greater_comparator)
+    print(a7)
+    print("counting sort succeeded =", is_descending_order(a7))
 
 
 
