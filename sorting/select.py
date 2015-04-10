@@ -7,7 +7,7 @@
 def quick_select(list, k):
     """ Quick select implementation. Return the k-th value for a collection of items"""
     
-    from quick_sort import hoare_partition
+    from quick_sort import way3_partition 
     import random
     random.shuffle(list)
     
@@ -15,7 +15,7 @@ def quick_select(list, k):
     e = len(list) -1
     
     while( e > s ):
-        p = hoare_partition(list, s, e)
+        p,q = way3_partition(list, s, e)
         if p < k:
             s = p + 1
         elif p > k:

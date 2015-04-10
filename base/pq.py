@@ -1,4 +1,4 @@
-from iterator import iterator
+from base.iterator import iterator #needed to add base. for python3.x .. 
 class pq:
     """ 
         Priority queue implementation.
@@ -69,7 +69,7 @@ class pq:
         return self.__data[1] #indexes start from 1
 
     def __iter__(self):
-        """ iterate through priority queueu using iterator utility """
+        """ iterate through priority queue using iterator utility """
         return iterator(self.__data[1:])
     
     ######################

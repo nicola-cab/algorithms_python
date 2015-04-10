@@ -68,11 +68,11 @@ def __quick_sort(list,s,e):
     if e<=s: 
         return
     
-    p,q = hoare_partition(list, s, e)
+    p,q = way3_partition(list, s, e)
     __quick_sort(list, s, p-1)
     __quick_sort(list, q+1, e)    
     
-def hoare_partition(list, s, e):
+def way3_partition(list, s, e):
     
     begin = s 
     end = e
@@ -98,3 +98,30 @@ def hoare_partition(list, s, e):
             i += 1
 
     return begin,end
+
+def hoare_partition(list, s, e):
+    """ 
+    classical hoare_partition. Does not work with duplicates keys. 
+    it turns into a infinite loop sometimes. Then do not use this routine with duplicates keys 
+    """
+    begin = s 
+    end = e
+    
+    while True:    
+        while list[begin] < list[s]:
+            begin +=1 
+            if begin == e:
+                break
+        
+        while list[s] < list[end]:
+            end -= 1
+            if end == s:
+                break
+        
+        if begin>=end:
+            break
+        else:   
+            list[begin], list[end] = list[end], list[begin]
+            
+    list[s], list[end] = list[end], list[s]
+    return end

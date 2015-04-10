@@ -61,12 +61,12 @@ if __name__ == "__main__":
     print("Test heap sort")
     heap_sort(a6, less_comparator)
     print(a6)
-    print("heap sort suceeded = ", is_ascending_order(a6))
+    print("heap sort succeeded = ", is_ascending_order(a6))
 
     print("Test counting sort")
-    counting_sort(a7, greater_comparator)
+    counting_sort(a7, 10)
     print(a7)
-    print("counting sort succeeded =", is_descending_order(a7))
+    print("counting sort succeeded =", is_ascending_order(a7))
 
 
 
