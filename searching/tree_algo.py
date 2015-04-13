@@ -108,6 +108,14 @@ def tree_ceiling(node, key):
     if n == None: raise Exception("ceiling not found")
     return n.key
 
+def tree_rank(node, k):
+    """ Number of key <= k """
+    pass
+
+def tree_select(node, k):
+    """ select the k-th key in tree (like quick_select) """
+    pass
+
 def tree_floor_(node, key):
     if node == None:     return node
     if node.key == key:  return node

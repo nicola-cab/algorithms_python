@@ -33,6 +33,12 @@ def test_bst_tree():
         print(i)
 
     bst.insert(4)
+    bst.insert(7)
+
+    print("Visit level order")
+    for i in bst:
+        print(i)
+
     print("Floor")
     print(tree_floor(bst.root,2))
 
