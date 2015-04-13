@@ -14,12 +14,33 @@ def test_bst_tree():
         print("Ops value not found")
 
     print( bst.find(4) )
-
-    bst.delete(4)
     print("Find."   ,bst.find(1))
     print("Find."   ,bst.find(5))
 
- 
+    print("visit in order")
+    tree_visit_in_order(bst.root)
+    print("visit in pre order")
+    tree_visit_pre_order(bst.root)
+    print("visit in post order")
+    tree_visit_post_order(bst.root)
+    print("Visit level order")
+    res = tree_visit_level_order(bst.root)
+    for i in res:
+        print(i)
+
+    bst.delete(4)
+    print("Visit level order")
+    res = tree_visit_level_order(bst.root)
+    for i in res:
+        print(i)
+
+    bst.insert(4)
+    print("Floor")
+    print(tree_floor(bst.root,2))
+
+    print("Ceiling")
+    print(tree_ceiling(bst.root,2))
+   
 if __name__ == "__main__":
 
     #fix imports because I am using some utility from other packages
@@ -29,5 +50,11 @@ if __name__ == "__main__":
 
     from sorting.utils import generate
     from bst import bst_tree
+
+    #tree visits
+    from tree_algo import tree_visit_in_order, tree_visit_pre_order, tree_visit_post_order, tree_visit_level_order
+
+    #tree statistc orders
+    from tree_algo import tree_floor, tree_ceiling
 
     test_bst_tree()

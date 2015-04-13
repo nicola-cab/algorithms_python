@@ -64,7 +64,7 @@ class bst_tree:
         else:
             #found item to delete
 
-            #cope to single child or no children
+            #cope with single child or no children
             if node.left == None:
                 return node.right
             if node.right == None:

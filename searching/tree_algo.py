@@ -36,8 +36,23 @@ def tree_visit_in_order(node):
     tree_visit_in_order(node.right)
 
 def tree_visit_level_order(node):
-    """ tree level order is a possible application for bsf algorithm """
-    pass
+    """ 
+        tree level order is a possible application for bsf algorithm. 
+        BSF is partially implemented since I don't really need to mark
+        nodes. In bst I don't have cycles and only 2 possible path per node.
+        A list of nodes ordered by level is returned.
+    """
+    q = [node]
+    res = []
+    while q:
+        l = list()
+        for x in q:
+            res.append(x)
+            if x.left: l.append(x.left)
+            if x.right: l.append(x.right)
+        q = l
+
+    return res
 
 
 def tree_min(node):
@@ -70,3 +85,38 @@ def tree_delete_min_(node):
     node.left = tree_delete_min_(node.left)
     return node
 
+#
+#   Order statistics for bst.
+#       Methods accept a pair composed by node and key and return a node.
+#
+def tree_floor(node, key):
+    """ The largest key <= a given key -- alas lower bound"""
+    if node == None or key == None:
+        raise Exception("node is null or key is not valid. Operation aborted")
+    n = tree_floor_(node, key)
+    if n == None:   raise Exception("floor not found")
+    return n.key
+
+def tree_ceiling(node, key):
+    """ Smallest key >= a given key -- alas upper_bound"""
+    if node == None or key == None:
+        raise Exception("node is null or key is not valid. Operation aborted")    
+    n = tree_ceiling_(node, key)
+    if n == None: raise Exception("ceiling not found")
+    return n.key
+
+def tree_floor_(node, key):
+    if node == None:     return node
+    if node.key == key:  return node
+    if key < node.key:   return tree_floor_(node.left, key)
+    t = tree_floor_(node.right, key)
+    if t != None: return t
+    else: return node
+
+def tree_ceiling_(node, key):
+    if node == None:    return node
+    if node.key == key: return node
+    if key > node.key:  return tree_ceiling_(node.right, key)
+    t = tree_ceiling_(node.left, key)
+    if t != None: return t
+    else: return node

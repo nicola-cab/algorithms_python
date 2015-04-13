@@ -41,4 +41,3 @@ class queue:
         """ iteration for stack"""
         it = iterator(self.__list)
         return it
-    
