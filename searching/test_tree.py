@@ -24,14 +24,12 @@ def test_bst_tree():
     print("visit in post order")
     tree_visit_post_order(bst.root)
     print("Visit level order")
-    res = tree_visit_level_order(bst.root)
-    for i in res:
+    for i in bst:
         print(i)
 
     bst.delete(4)
     print("Visit level order")
-    res = tree_visit_level_order(bst.root)
-    for i in res:
+    for i in bst:
         print(i)
 
     bst.insert(4)

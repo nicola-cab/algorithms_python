@@ -54,6 +54,25 @@ def tree_visit_level_order(node):
 
     return res
 
+#
+#   delete min
+#
+def tree_delete_min(node):
+    if node == None:
+        raise Exception("node is null. Operation aborted")
+
+    return tree_delete_min_(node)
+
+def tree_delete_min_(node):
+    if node.left == None:
+        return node.right
+    node.left = tree_delete_min_(node.left)
+    return node
+
+#
+#   Order statistics for bst.
+#       Methods accept a pair composed by node and key and return a node.
+#
 
 def tree_min(node):
     if node == None:
@@ -73,22 +92,6 @@ def tree_max(node):
 
     return node
 
-def tree_delete_min(node):
-    if node == None:
-        raise Exception("node is null. Operation aborted")
-
-    return tree_delete_min_(node)
-
-def tree_delete_min_(node):
-    if node.left == None:
-        return node.right
-    node.left = tree_delete_min_(node.left)
-    return node
-
-#
-#   Order statistics for bst.
-#       Methods accept a pair composed by node and key and return a node.
-#
 def tree_floor(node, key):
     """ The largest key <= a given key -- alas lower bound"""
     if node == None or key == None:
