@@ -1,5 +1,10 @@
+import sys
+from os import path
+sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) ) 
+
+from base.iterator import iterator
 from tree_node import tree_node
-from tree_algo import tree_min, tree_delete_min
+from tree_algo import tree_min, tree_delete_min, tree_visit_level_order
 
 class bst_tree:
     """
@@ -27,7 +32,10 @@ class bst_tree:
     
     def delete(self,key):
         self.root = self.__delete(self.root, key)
-    
+
+    def __iter__(self):
+        return iterator(tree_visit_level_order(self.root))
+
     def __insert(self, node, key):
         if node == None:
             node = tree_node(key)
@@ -64,7 +72,7 @@ class bst_tree:
         else:
             #found item to delete
 
-            #cope to single child or no children
+            #cope with single child or no children
             if node.left == None:
                 return node.right
             if node.right == None:

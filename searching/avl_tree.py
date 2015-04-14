@@ -7,6 +7,6 @@ class avl_tree:
         
         Important:
             - this implementation uses massively recursion. 
-            - Probably in practise you will never need this stuff
+            - Probably in practise you will never want use heavy recursive algorithms
     """
     pass
