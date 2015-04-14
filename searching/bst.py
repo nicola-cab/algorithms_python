@@ -4,7 +4,7 @@ sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 
 from base.iterator import iterator
 from tree_node import tree_node
-from tree_algo import tree_min, tree_delete_min, tree_visit_level_order
+from tree_algo import tree_min, tree_delete_min, tree_visit_level_order, tree_size
 
 class bst_tree:
     """
@@ -39,6 +39,7 @@ class bst_tree:
     def __insert(self, node, key):
         if node == None:
             node = tree_node(key)
+            node.count = 1
             return node
         else:
             if key<node.key:
@@ -47,6 +48,8 @@ class bst_tree:
                 node.right = self.__insert(node.right, key)
             else:
                 node.key = key #duplication not allowed. this is a simple set
+            
+            node.count = tree_size(node.left) + tree_size(node.right) + 1
             return node
 
     def __find(self, node, key):

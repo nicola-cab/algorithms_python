@@ -69,6 +69,11 @@ def tree_delete_min_(node):
     node.left = tree_delete_min_(node.left)
     return node
 
+def tree_size(node):
+    if node:
+        return node.count
+    return 0
+    
 #
 #   Order statistics for bst.
 #       Methods accept a pair composed by node and key and return a node.
@@ -110,12 +115,21 @@ def tree_ceiling(node, key):
 
 def tree_rank(node, k):
     """ Number of key <= k """
-    pass
+    if node == None or k == None:
+        raise Exception("node is null or key is not valid. Operation aborted")
+    return tree_rank_(node, k)
 
 def tree_select(node, k):
     """ select the k-th key in tree (like quick_select) """
-    pass
-
+    if node == None or k == None:
+        raise Exception("node is null or key is not valid. Operation aborted")
+    n = tree_select_(node, k)
+    if n == None:   raise Exception("Bad error, bug in algorithm")
+    return n.key
+    
+#
+# Recursive implementation for some tree_algo functions
+#
 def tree_floor_(node, key):
     if node == None:     return node
     if node.key == key:  return node
@@ -130,4 +144,17 @@ def tree_ceiling_(node, key):
     if key > node.key:  return tree_ceiling_(node.right, key)
     t = tree_ceiling_(node.left, key)
     if t != None: return t
+    else: return node
+
+def tree_rank_(node, k):
+    if node == None:    return 0
+    if k < node.key:  return tree_rank_(node.left, k)
+    elif k > node.key:  return 1 + tree_size(node.left) + tree_rank_(node.right, k)
+    else: return tree_size(node.left)
+
+def tree_select_(node, k):
+    if node == None: return None
+    s = tree_size(node.left)
+    if s > k:   return tree_select_(node.left, k)
+    elif s < k: return tree_select_(node.right, k-s-1)
     else: return node

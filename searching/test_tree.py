@@ -45,6 +45,24 @@ def test_bst_tree():
 
     print("Ceiling")
     print(tree_ceiling(bst.root,2))
+    
+    print("Rank. Number of keys that have at least 2 children.. in this tree only one")
+    print(tree_rank(bst.root, 2))
+    
+    print("Select the k-th item in the tree ... ")
+    print("Min is = ", tree_select(bst.root, 0))
+    print("Median is = ",tree_select(bst.root, len(values)//2))
+    print("Max is =",tree_select(bst.root, 3))
+    
+    if tree_min(bst.root) == tree_select(bst.root,0):
+        raise Exception("Test failed min not equal to select 0-th element")
+    else:
+        print("min <-> select test passed ")
+        
+    if tree_max(bst.root) == tree_select(bst.root,3):
+        raise Exception("Test failed max not equal to select 3-th element")
+    else:
+        print("max <-> select test passed ")
    
 if __name__ == "__main__":
 
@@ -60,6 +78,6 @@ if __name__ == "__main__":
     from tree_algo import tree_visit_in_order, tree_visit_pre_order, tree_visit_post_order, tree_visit_level_order
 
     #tree statistc orders
-    from tree_algo import tree_floor, tree_ceiling
+    from tree_algo import tree_min, tree_max, tree_floor, tree_ceiling, tree_rank, tree_select
 
     test_bst_tree()
