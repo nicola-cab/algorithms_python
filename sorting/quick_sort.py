@@ -102,7 +102,7 @@ def way3_partition(list, s, e):
 def hoare_partition(list, s, e):
     """ 
     classical hoare_partition. Does not work with duplicates keys. 
-    it turns into a infinite loop sometimes. Then do not use this routine with duplicates keys 
+    it turns into a infinite loop sometimes. Then do not use this routine with duplicate keys 
     """
     begin = s 
     end = e

@@ -37,7 +37,7 @@ def tree_visit_in_order(node):
 
 def tree_visit_level_order(node):
     """ tree level order is a possible application for bsf algorithm """
-    pass
+    
 
 
 def tree_min(node):
