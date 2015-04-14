@@ -5,6 +5,8 @@
 #   Methods accept and return only tree_nodes
 #
 
+from tree_node import tree_node
+
 #tree walking. 
 # pre-order  : 
 # post-order : 
@@ -55,7 +57,73 @@ def tree_visit_level_order(node):
     return res
 
 #
-#   delete min
+#   insert/find/delete for generic bst
+#
+
+def bst_insert(node, key):
+    if node == None:
+        node = tree_node(key)
+        node.count = 1
+        return node
+    else:
+        if key<node.key:
+            node.left = bst_insert(node.left, key)
+        elif key>node.key:
+            node.right = bst_insert(node.right, key)
+        else:
+            node.key = key #duplication not allowed. this is a simple set
+            
+        node.count = tree_size(node.left) + tree_size(node.right) + 1
+        return node
+
+#
+#   find in bst
+#
+def bst_find(node, key):
+    if node == None:
+        raise Exception("error key not found")
+    
+    if node.key == key:
+        return key
+    elif key<node.key:
+        return bst_find(node.left, key)
+    else:
+        return bst_find(node.right, key)
+
+#
+#   delete for bst
+#
+def bst_delete(node, key):
+
+    if node == None:
+        raise Exception("error key not found")
+
+    if key < node.key:
+        node.left = bst_delete(node.left, key)
+    elif key > node.key:
+        node.right = bst_delete(node.right, key)
+    else:
+        #found item to delete
+        
+        #cope with single child or no children
+        if node.left == None:
+            return node.right
+        if node.right == None:
+            return node.left
+        
+        #two children.
+        # the min element in right subtree for key must become the new root of
+        # the subtree
+            
+        t = node
+        node = tree_min(t.right)              #substitute the root for the subtree
+        node.right = tree_delete_min(t.right) #delete the min because it is going to be the new root for subtree
+        node.left = t.left                    #set left subtree
+            
+        return node
+
+#
+#   delete min in bst
 #
 def tree_delete_min(node):
     if node == None:
@@ -69,6 +137,9 @@ def tree_delete_min_(node):
     node.left = tree_delete_min_(node.left)
     return node
 
+#
+#   get keys rooted by node
+#
 def tree_size(node):
     if node:
         return node.count
