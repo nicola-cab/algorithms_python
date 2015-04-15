@@ -55,6 +55,16 @@ def tree_visit_level_order(node):
     return res
 
 #
+#   find element bst
+#
+def bst_find(node, key):
+    if node == None:
+        raise Exception("error key not found")     
+    if node.key == key: return key
+    elif key<node.key:  return bst_find(node.left, key)
+    else:               return bst_find(node.right, key)
+
+#
 #   delete min in bst
 #
 def tree_delete_min(node):
@@ -162,3 +172,29 @@ def tree_select_(node, k):
     if s > k:   return tree_select_(node.left, k)
     elif s < k: return tree_select_(node.right, k-s-1)
     else: return node
+
+#
+# Rotation for balanced trees
+#
+
+def tree_rotate_left(h):
+    x = h.right
+    h.right = x.left
+    x.left  = h
+
+    x.color = h.color
+    h.color = 1 #red
+    x.count = h.count
+    h.count = 1 + tree_size(h.left) +  tree_size(h.right)
+    return x
+
+def tree_rotate_right(h):
+    x = h.left
+    h.left = x.right
+    x.right = h
+
+    x.color = h.color
+    h.color = 1 #red
+    x.count = h.count
+    h.count = 1 + tree_size(h.left) +  tree_size(h.right)
+    return x

@@ -4,7 +4,7 @@ sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 
 from tree_node import tree_node
 from base.iterator import iterator
-from tree_algo import  tree_visit_level_order, tree_min, tree_delete_min, tree_size
+from tree_algo import  tree_visit_level_order, tree_min, tree_delete_min, tree_size, bst_find
 
 class bst_tree:
     """
@@ -23,6 +23,9 @@ class bst_tree:
      
     def __init__(self):
         self.root = None
+
+    def __str__(self):
+        return "binary search tree implementation"
     
     def insert(self, key):
         if key == None:
@@ -32,7 +35,7 @@ class bst_tree:
     def find(self, key):
         if key == None:
             raise Excpetion("Key is not valid. operation aborted")
-        return  self.__bst_find(self.root, key)
+        return  bst_find(self.root, key)
     
     def delete(self,key):
         if key == None:
@@ -61,16 +64,6 @@ class bst_tree:
             node.count = tree_size(node.left) + tree_size(node.right) + 1
             return node
 
-    def __bst_find(self, node, key):
-        if node == None:
-            raise Exception("error key not found")
-    
-        if node.key == key:
-            return key
-        elif key<node.key:
-            return self.__bst_find(node.left, key)
-        else:
-            return self.__bst_find(node.right, key)
 
     def __bst_delete(self, node, key):
     

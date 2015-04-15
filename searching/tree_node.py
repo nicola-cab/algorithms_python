@@ -13,7 +13,6 @@ class tree_node:
         self.left = None 
         self.right = None
         self.color = 0  #0 is black 1 is red
-        self.height = 0 #depth of the node in the tree
         self.count  = 0 #number of nodes rooted
 
     def __str__(self):
