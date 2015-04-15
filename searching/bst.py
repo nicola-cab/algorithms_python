@@ -27,17 +27,17 @@ class bst_tree:
     def insert(self, key):
         if key == None:
             raise Excpetion("Key is not valid. operation aborted")
-        self.root = self.bst_insert( self.root, key )
+        self.root = self.__bst_insert( self.root, key )
     
     def find(self, key):
         if key == None:
             raise Excpetion("Key is not valid. operation aborted")
-        return  self.bst_find(self.root, key)
+        return  self.__bst_find(self.root, key)
     
     def delete(self,key):
         if key == None:
             raise Excpetion("Key is not valid. operation aborted")
-        self.root = self.bst_delete(self.root, key)
+        self.root = self.__bst_delete(self.root, key)
 
     def __iter__(self):
         return iterator(tree_visit_level_order(self.root))
@@ -45,42 +45,42 @@ class bst_tree:
     #
     # private bst implementation
     #
-    def bst_insert(self, node, key):
+    def __bst_insert(self, node, key):
         if node == None:
             node = tree_node(key)
             node.count = 1
             return node
         else:
             if key<node.key:
-                node.left = self.bst_insert(node.left, key)
+                node.left = self.__bst_insert(node.left, key)
             elif key>node.key:
-                node.right = self.bst_insert(node.right, key)
+                node.right = self.__bst_insert(node.right, key)
             else:
                 node.key = key #duplication not allowed. this is a simple set
         
             node.count = tree_size(node.left) + tree_size(node.right) + 1
             return node
 
-    def bst_find(self, node, key):
+    def __bst_find(self, node, key):
         if node == None:
             raise Exception("error key not found")
     
         if node.key == key:
             return key
         elif key<node.key:
-            return self.bst_find(node.left, key)
+            return self.__bst_find(node.left, key)
         else:
-            return self.bst_find(node.right, key)
+            return self.__bst_find(node.right, key)
 
-    def bst_delete(self, node, key):
+    def __bst_delete(self, node, key):
     
         if node == None:
             raise Exception("error key not found")
     
         if key < node.key:
-            node.left = self.bst_delete(node.left, key)
+            node.left = self.__bst_delete(node.left, key)
         elif key > node.key:
-            node.right = self.bst_delete(node.right, key)
+            node.right = self.__bst_delete(node.right, key)
         else:
             #found item to delete
             #cope with single child or no children
