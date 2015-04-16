@@ -4,8 +4,8 @@ sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 
 from tree_node import tree_node
 from base.iterator import iterator
-from tree_algo import bst_find, tree_visit_level_order, tree_size 
-from tree_algo import tree_rotate_left, tree_rotate_right
+from tree_algo import bst_find, tree_visit_level_order, tree_size, tree_min, tree_delete_min 
+from tree_algo import tree_rotate_left, tree_rotate_right, tree_size
 
 class rb_tree:
     """ 
@@ -36,7 +36,15 @@ class rb_tree:
         return bst_find(self.root, key)
              
     def delete(self, key):
-        pass
+        if key == None:
+            raise Exception("Key passed is not valid")
+
+        bst_find( self.root, key )
+
+        if not self.isRed(self.root.left) and not self.isRed(self.root.right):
+            self.root.color = 1 #make node red 
+
+        self.root = self.rb_tree_delete(self.root, key)
 
     def __iter__(self):
         return iterator(tree_visit_level_order(self.root))
@@ -44,17 +52,6 @@ class rb_tree:
     #
     # rb tree internal algorithms to insert and delete node
     #
-
-    def isRed( self, node):
-        if node == None: return False
-        return node.color == 1
-
-    def flipColor(self, node):
-        if node == None:
-            return
-        node.color = 1
-        node.left.color = 0
-        node.right.color = 0
 
     def rb_tree_insert(self, node, key):
         """ Implementation for red black tree insertion. """
@@ -83,4 +80,80 @@ class rb_tree:
             self.flipColor(node)
 
         node.count = tree_size(node.left) + tree_size(node.right) + 1
-        return node 
+        return node
+
+    def rb_tree_delete(self, node, key):
+        """
+            Implementation for rb tree deletation.
+            Basically binary tree deletation +
+            rebalancing to keep rb tree invariants
+        """
+        if key < node.key:
+            if not self.isRed(node.left) and not self.isRed(node.left.left):
+                node = self.__move_red_left(node)
+            node.left = self.rb_tree_delete(node.left, key)
+        else:
+            if self.isRed(node.left):
+                node = tree_rotate_right(node)
+            if key == node.key and node.right == None:
+                return None
+            if not self.isRed(node.right) and not self.isRed(node.right.left):
+                node = self.__move_red_right(node)
+            if node.key == key:
+                x = tree_min(node.right)
+                node.key = x.key
+                node.right = tree_delete_min(node.right)
+            else:
+                node.right = self.rb_tree_delete(node.right, key)
+
+        return self.__balance(node)
+
+    #
+    #   Utility functions. private use only
+    #
+    def __move_red_left(self, node):
+        """ 
+            Assuming that node is red and both node.left and node.left.left are both black.
+            make h.left or one of it's children red
+        """
+        self.flipColor(node)
+        if self.isRed(node.right.left):
+            node.right = tree_rotate_right(node.right)
+            node = tree_rotate_left(node)
+            self.flipColor(node)
+        return node
+
+    def __move_red_right(self, node):
+        """ 
+            Assuming that node is red and both node.left and node.left.left are both black.
+            make h.right or one of it's children red
+        """
+        self.flipColor(node)
+        if self.isRed(node.left.left):
+            node = tree_rotate_right(node)
+            self.flipColor(node)
+        return node
+ 
+    def isRed( self, node):
+        """ Check if node's color is red """
+        if node == None: return False
+        return node.color == 1
+
+    def flipColor(self, node):
+        """ Flip colors of current node """
+        if node == None:
+            return
+        node.color = not node.color
+        node.left.color = not node.right.color
+        node.right.color = not node.right.color
+    
+    def __balance(self,node):
+        """ Balance red black tree """
+        if self.isRed(node.right):  
+            node = tree_rotate_left(node)
+        if self.isRed(node.left) and self.isRed(node.left.left): 
+            node=tree_rotate_right(node)   
+        if self.isRed(node.left) and self.isRed(node.right):
+            self.flipColor(node)
+        node.count = tree_size(node.left) + tree_size(node.right) + 1
+        return node
