@@ -69,12 +69,14 @@ def test_tree(tree):
 # Utility functions to test if tree is bst or 23 tree
 #
 
-#def is_bst_tree(node):
-#    return is_bst(node, None, None)
+def is_bst_tree(node):
+    return is_bst(node, None, None)
 
-#def is_bst(node, kmin, kmax):
-#    if node == None:    return True
-#    if kmin != None and node.key < 
+def is_bst(node, kmin, kmax):
+    if node == None:    return True
+    if kmin != None and node.key <= kmin: return False
+    if kmax != None and node.key >= kmax: return False
+    is_bst(node.left, kmin, node.key)
 
 #def is_23_tree(node)
 #    pass
