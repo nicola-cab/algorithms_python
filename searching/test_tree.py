@@ -64,6 +64,13 @@ def test_tree(tree):
         raise Exception("Test failed max not equal to select 3-th element")
     else:
         print("max <-> select test passed ")
+        
+    print("Check if the tree is a bst ")
+    print(is_bst_tree(tree.root))
+    
+    if tree.__strt__() == "red black tree":
+        print("Check if tree is rb tree ")
+        print(is_23_tree(tree.root))
 
 #
 # Utility functions to test if tree is bst or 23 tree
@@ -72,14 +79,20 @@ def test_tree(tree):
 def is_bst_tree(node):
     return is_bst(node, None, None)
 
-def is_bst(node, kmin, kmax):
+def is_bst(node, min_key, max_key):
     if node == None:    return True
-    if kmin != None and node.key <= kmin: return False
-    if kmax != None and node.key >= kmax: return False
-    is_bst(node.left, kmin, node.key)
+    if min_key != None and node.key <= min_key: return False
+    if max_key != None and node.key >= max_key: return False
+    return is_bst(node.left, min_key, node.key) and is_bst(node.right, node.key, max_key)
 
-#def is_23_tree(node)
-#    pass
+def is_23_tree(tree,node)
+    return True 
+    #return is_23(tree,node)
+
+#def is_23(tree,node):
+#    if node == None:    return True
+#    if tree.isRed(node.right): return False
+#    if node != tree.root:
    
 if __name__ == "__main__":
 

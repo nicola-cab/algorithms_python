@@ -25,7 +25,7 @@ class bst_tree:
         self.root = None
 
     def __str__(self):
-        return "binary search tree implementation"
+        return "binary search tree"
     
     def insert(self, key):
         if key == None:

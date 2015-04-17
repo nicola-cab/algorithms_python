@@ -23,7 +23,7 @@ class rb_tree:
         self.root = None 
 
     def __str__(self):
-        return "red black tree implementation"
+        return "red black tree"
  
     def insert(self, key):
         if key == None:
