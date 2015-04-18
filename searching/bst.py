@@ -29,17 +29,19 @@ class bst_tree:
     
     def insert(self, key):
         if key == None:
-            raise Excpetion("Key is not valid. operation aborted")
+            raise Exception("Key is not valid. operation aborted")
         self.root = self.__bst_insert( self.root, key )
     
     def find(self, key):
         if key == None:
-            raise Excpetion("Key is not valid. operation aborted")
+            raise Exception("Key is not valid. operation aborted")
         return  bst_find(self.root, key)
     
     def delete(self,key):
         if key == None:
-            raise Excpetion("Key is not valid. operation aborted")
+            raise Exception("Key is not valid. operation aborted")
+        if self.root == None:
+            raise Exception("Tree is empty")
         self.root = self.__bst_delete(self.root, key)
 
     def __iter__(self):
@@ -90,5 +92,7 @@ class bst_tree:
             node = tree_min(t.right)              #substitute the root for the subtree
             node.right = tree_delete_min(t.right) #delete the min because it is going to be the new root for subtree
             node.left = t.left                    #set left subtree
-        
+
+            node.count = tree_size(node.left) + tree_size(node.right) + 1
+ 
             return node

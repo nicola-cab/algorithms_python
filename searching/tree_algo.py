@@ -138,7 +138,7 @@ def tree_select(node, k):
     if node == None or k == None:
         raise Exception("node is null or key is not valid. Operation aborted")
     n = tree_select_(node, k)
-    if n == None:   raise Exception("Bad error, bug in algorithm")
+    if n == None:   raise Exception("k-th key non found in tree. is k-th element into tree's keys range?")
     return n.key
     
 #
@@ -186,6 +186,8 @@ def tree_rotate_left(h):
     h.color = 1 #red
     x.count = h.count
     h.count = 1 + tree_size(h.left) +  tree_size(h.right)
+    h.height = tree_compute_height(h)
+    x.height = tree_compute_height(x)
     return x
 
 def tree_rotate_right(h):
@@ -197,4 +199,37 @@ def tree_rotate_right(h):
     h.color = 1 #red
     x.count = h.count
     h.count = 1 + tree_size(h.left) +  tree_size(h.right)
+    h.height = tree_compute_height(h)
+    x.height = tree_compute_height(x)
     return x
+
+def tree_balance_check(node):
+    """ 
+        Tree algorithm used in avl trees in order to understand if rotations are needed.
+        Assumption of this method are:
+            -1 bst node is provided
+            -2 field height is present in the node object
+        Important difference between left subtree and right subtree mustn't be up to 2.
+    """
+    if node == None:
+        return 0
+    if node.left == None:
+        left_h = 0          
+    else: 
+        left_h = 1 + node.left.height
+    if node.right == None:
+         right_h = 0
+    else: 
+        right_h = 1 + node.right.height 
+    return left_h - right_h
+
+def tree_compute_height(node):
+    if node == None:
+        return 0
+    if node.left == None and node.right == None:
+        return 0
+    if node.left == None and node.right:
+        return 1 + node.right.height
+    if node.left and node.right == None:
+        return 1 + node.left.height
+    return max(node.left.height, node.right.height) + 1

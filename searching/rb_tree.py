@@ -5,7 +5,7 @@ sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from tree_node import tree_node
 from base.iterator import iterator
 from tree_algo import bst_find, tree_visit_level_order, tree_size, tree_min, tree_delete_min 
-from tree_algo import tree_rotate_left, tree_rotate_right, tree_size
+from tree_algo import tree_rotate_left, tree_rotate_right
 
 class rb_tree:
     """ 
@@ -38,6 +38,8 @@ class rb_tree:
     def delete(self, key):
         if key == None:
             raise Exception("Key passed is not valid")
+        if self.root == None:
+            raise Exception("Tree is empty")
 
         bst_find( self.root, key )
 

@@ -14,6 +14,7 @@ class tree_node:
         self.right = None
         self.color = 0  #0 is black 1 is red
         self.count  = 0 #number of nodes rooted
+        self.height = 0 #height of the sub-tree rooted
 
     def __str__(self):
         return str(self.key)
