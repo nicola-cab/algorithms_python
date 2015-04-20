@@ -42,6 +42,8 @@ class linear_chain_hash_map:
         for each object passed to it.
     """
 
+    __min_capacity = 4
+
     def __init__(self, m):
         self.n = 0  # number of keys
         self.m = m  #number of bins
@@ -69,7 +71,9 @@ class linear_chain_hash_map:
         if key == None:
             raise Exception("Invalid key")
 
-        #cope with reallocation
+        #cope with reallocation and perform rehashing if it is needed
+        if self.n >= 10*self.m:
+            self.__resize__(2*self.m)
 
         if not self.contains(key):
             i = self.__hash_function__(key)
@@ -85,7 +89,12 @@ class linear_chain_hash_map:
             self.hash_map[i].delete(key)
             self.n -= 1
 
-        #cope with reallocation
+        #cope with reallocation and perform squeeze mem occupation + rehashing 
+        if self.m > self.__min_capacity and self.n <= 2*self.m:
+            self.__resize__(self.m//2)
+
+    def load_factor(self):
+        return self.m/self.n
 
     def __iter__(self):
         list = []
@@ -99,26 +108,28 @@ class linear_chain_hash_map:
         return (hash(key) & 0x7fffffff) % self.m
 
     def __resize__(self, m):
+        """ rehashing is performed """
         tmp_hash_map = linear_chain_hash_map(m) 
-
-
+        for item in self:
+            tmp_hash_map.put(item)
+        self= tmp_hash_map
 
 if __name__ == "__main__":
 
-    hash_map = linear_chain_hash_map(10)
-    list = [10, 9,6,11,1,3,2,2,6,7,12,13]
+    hash_map = linear_chain_hash_map(2)
+    list = [10,9,6,11,1,3,2,2,6,7,12,13,15,67,87,20,10,144,34,54,37,31,32,69]
     for i in list:
         hash_map.put(i)
 
     print("Hash map size =", hash_map.size())
-    
     print("Print Hash map:")
     for key in hash_map:
         print("key = ", key)
 
     print("Delete 2")
     hash_map.delete(2)
-
+    
+    print("Hash map size =", hash_map.size())
     print("Print Hash Map")
     for key in hash_map:
         print("key = ", key)
