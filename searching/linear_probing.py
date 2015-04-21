@@ -29,7 +29,7 @@ class probing_hash_map:
         i = self.__hash_function__(key)
         while self.hash_map[i] != None:
             if self.hash_map[i] == key:
-                return self.hash_map[key]
+                return self.hash_map[i]
             i = (i + 1) % self.m 
         return None
 
@@ -60,7 +60,7 @@ class probing_hash_map:
         self.hash_map[i] = None
 
         #rehashing algorithm
-        i = (i+1)%self.m
+        i = (i + 1) % self.m
         while self.hash_map[i]!=None:
             item = self.hash_map[i]
             self.hash_map[i] = None
@@ -92,8 +92,8 @@ class probing_hash_map:
         self.hash_map = tmp_hash_map.hash_map
 
 if __name__ == "__main__":
-    hash_map = probing_hash_map(10)
-    list = [10,1,3,4,5,6,8,1,2,0,11,13,12,13]
+    hash_map = probing_hash_map(5)
+    list = [10,1,3,4,5]
 
     for i in list:
         hash_map.put(i)
@@ -101,9 +101,19 @@ if __name__ == "__main__":
     print("Does map contains 1 = ", hash_map.contains(1))
     print("Does map contains 13 = ", hash_map.contains(13))
     print("Does map contains 7 = ", hash_map.contains(7))
-    
-    
-    #hash_map.delete(1)
+   
+    print("Hash map:")
+    for k in hash_map:
+        print("Key in hash map = ",k)
+
+    print("Deleting 1 from hash map")
+    hash_map.delete(1)
+    print("Deleting 10 from hash map") 
+    hash_map.delete(10)
+    print("Deleting 3 from hash map")
+    hash_map.delete(3)
+    print("Deleting 4 from hash map")
+    hash_map.delete(4)
 
     print("Hash map:")
     for k in hash_map:
