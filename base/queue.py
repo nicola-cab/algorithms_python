@@ -1,5 +1,5 @@
 from collections import deque
-from iterator import iterator
+from .iterator import iterator
 class queue:
     """ 
         - hand crafted data structure made for study purposes.

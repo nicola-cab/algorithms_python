@@ -1,4 +1,4 @@
-from base.iterator import iterator #needed to add base. for python3.x .. 
+from .iterator import iterator #needed to add base. for python3.x .. 
 class pq:
     """ 
         Priority queue implementation.

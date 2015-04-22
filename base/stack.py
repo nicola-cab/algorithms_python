@@ -1,4 +1,4 @@
-from iterator import reverse_iterator #reverse iteration
+from .iterator import reverse_iterator #reverse iteration
 
 class stack:
     """ class stack. hand crafted data structure made for study purposes"""
