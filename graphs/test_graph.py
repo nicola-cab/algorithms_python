@@ -4,6 +4,7 @@ sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 
 from ugraph import undirected_graph
 from dsf import DSF
+from bsf import BSF
 
 def set_graph(graph):
     graph.add_edge(0, 1)
@@ -43,7 +44,18 @@ def run_dsf(graph, s, d):
         for v in path:
             print( "node: ", v )
         
-
+def run_bsf(graph, s, d):
+    print("Running BSF algorithm")
+    bsf = BSF(graph, s)
+    r = bsf.is_path_present(d) 
+    print("Exist a path from ",s," to ", d, " == ", r)
+    if r == True:
+        print("distance(", s, ",",d,") is ", bsf.get_dist_to(d))
+        path = bsf.get_path_to(d)
+        print("path:")
+        for v in path:
+            print( "node: ", v )
+    
 
 if __name__ == "__main__":
     #undirect graph test
@@ -51,10 +63,15 @@ if __name__ == "__main__":
     set_graph(graph)
     check_graph_properties(graph)
     #run dsf
+    print("------------------- running dsf --------------------- ")
     run_dsf(graph, 0, 4)
     run_dsf(graph, 1, 2) 
     run_dsf(graph, 4, 3)
     run_dsf(graph, 0, 0)
-        
+    print("------------------- running bsf --------------------- ")
+    run_bsf(graph, 0, 4)
+    run_bsf(graph, 1, 2)
+    run_bsf(graph, 4, 3)
+    run_bsf(graph, 0, 0)
   
 

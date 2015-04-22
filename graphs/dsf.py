@@ -1,14 +1,16 @@
-import sys
-from os import path
-sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) ) 
-
 from base.stack import stack
 
 class DSF:
     """ 
-        Class that represent a generic interface for deep search first.
+        Class that represent a generic interface for deepth search first.
         This class provides also a API to understand if there is a path
-        between two different nodes v and w
+        between two different nodes v and w.
+        Basically running DFS guarantees to find a path from a source node s 
+        to some destination node d. 
+        The path could be even the longest or the shortest.. DFS does not check this things
+
+        Complexity:
+        O(E) in the worst case
     """
 
     def __init__(self, g, s):
