@@ -1,4 +1,13 @@
-from .iterator import iterator #needed to add base. for python3.x .. 
+from .iterator import iterator #needed to add base. for python3.x ..
+from .utils import less_comparator
+from .utils import greater_comparator
+
+def min_pq():
+    return pq(less_comparator)
+
+def max_pq():
+    return pq(greater_comparator)
+
 class pq:
     """ 
         Priority queue implementation.
