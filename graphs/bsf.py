@@ -5,14 +5,14 @@ class BSF:
         This class exposes a set of APIs to implement a breadth search first.
         Breadth search returns the shortest path for a undirect graph
     """
-    def __init__(self, g, s):
+    def __init__(self, G, s):
         self.s = s
-        self.marked = [False]*g.get_number_vertices()
-        self.distTo = [-1]*g.get_number_vertices()
-        self.edgeTo = [0]*g.get_number_vertices()
-        self.bsf(g,s)
+        self.marked = [False]*G.V()
+        self.distTo = [-1]*G.V()
+        self.edgeTo = [0]*G.V()
+        self.bsf(G,s)
 
-    def bsf(self, g, s):
+    def bsf(self, G, s):
         
         q = queue()
         self.distTo[s] = 0
@@ -21,7 +21,7 @@ class BSF:
 
         while not q.isEmpty():
             v = q.dequeue()
-            for w in g.get_adj_list(v):
+            for w in G.edges_vertex(v):
                 if not self.marked[w]:
                     self.edgeTo[w] = v
                     self.distTo[w] = self.distTo[v] + 1

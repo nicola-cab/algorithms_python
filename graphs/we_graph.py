@@ -11,21 +11,29 @@ class we_graph:
         for i in range(v):
             self.adj_list[i] = []
 
-    def get_number_vertices(self):
+    def V(self):
         return self.v
 
-    def get_number_edges(self):
+    def E(self):
         return self.e
 
-    def get_degree(self, v):
+    def degree(self, v):
         return len(self.adj_list[v])
 
     def add_edge(self, e):
-        v = e.either()
-        w = e.other(v)
+        v = e.v
+        w = e.w
         self.adj_list[v].append(e)
         self.adj_list[w].append(e)
         self.e += 1
 
-    def get_adj_list(self, v):
+    def edges_vertex(self, v):
         return iterator(self.adj_list[v])
+    
+    def edges(self):
+        l = []
+        for v in range(self.V()):
+            for e in self.adj_list[v]:
+                l.append(e)
+        return sorted(set(l))
+                

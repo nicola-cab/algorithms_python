@@ -7,7 +7,7 @@ from we_graph import we_graph
 from w_edge import w_edge
 from dsf import DSF
 from bsf import BSF
-from mst import mst
+from mst import MST
 
 def set_graph(graph):
     graph.add_edge(0, 1)
@@ -17,8 +17,7 @@ def set_graph(graph):
     graph.add_edge(1, 3)
     graph.add_edge(2, 3)
     graph.add_edge(2, 4)
-    graph.add_edge(3, 2)
-    graph.add_edge(4, 3)
+    graph.add_edge(3, 4)
 
 def set_weight_graph(graph):
     e1 = w_edge(0,1,0.1)
@@ -28,9 +27,7 @@ def set_weight_graph(graph):
     e5 = w_edge(1,3,1.1)
     e6 = w_edge(2,3,0.1)
     e7 = w_edge(2,4,1.5)
-    e8 = w_edge(3,2,2.1)
-    e9 = w_edge(3,4,0.3) 
-    e10 = w_edge(4,3,0.2)
+    e8 = w_edge(3,4,0.3) 
     graph.add_edge(e1)
     graph.add_edge(e2)
     graph.add_edge(e3)
@@ -39,23 +36,22 @@ def set_weight_graph(graph):
     graph.add_edge(e6)
     graph.add_edge(e7)
     graph.add_edge(e8)
-    graph.add_edge(e9)
-    graph.add_edge(e10)
+
 
 def check_graph_properties(graph):
-    print("Number of edges = ", graph.get_number_edges())
-    print("Number of vertices = ", graph.get_number_vertices())
-    print("Degree for node 0 = ", graph.get_degree(0))
-    print("Degree for node 1 = ", graph.get_degree(1))
-    print("Degree for node 2 = ", graph.get_degree(2))
-    print("Degree for node 3 = ", graph.get_degree(3))
-    print("Degree for node 4 = ", graph.get_degree(4))
+    print("Number of edges = ", graph.E())
+    print("Number of vertices = ", graph.V())
+    print("Degree for node 0 = ", graph.degree(0))
+    print("Degree for node 1 = ", graph.degree(1))
+    print("Degree for node 2 = ", graph.degree(2))
+    print("Degree for node 3 = ", graph.degree(3))
+    print("Degree for node 4 = ", graph.degree(4))
 
     print("Check adj list for node 0")
-    for v in graph.get_adj_list(0):
+    for v in graph.edges_vertex(0):
         print(v)
     print("Check adj list for node 1")
-    for v in graph.get_adj_list(1):
+    for v in graph.edges_vertex(1):
         print(v)
 
 def run_dsf(graph, s, d):
@@ -80,7 +76,19 @@ def run_bsf(graph, s, d):
         print("path:")
         for v in path:
             print( "node: ", v )
-    
+
+def run_mst(G):
+    """ 
+    Compute MST using a greedy algorithm. 
+    Internally MST uses Kruskal algorithm. 
+    """
+    mst = MST(G)
+    print("Entire graph:")
+    for e in G.edges():
+        print( e )
+    print("MST:")
+    for e in mst.edges():
+        print(e)
 
 if __name__ == "__main__":
     #undirect graph test
@@ -102,4 +110,4 @@ if __name__ == "__main__":
     we_graph = we_graph(5)
     set_weight_graph(we_graph)
     check_graph_properties(we_graph) 
-
+    run_mst( we_graph )

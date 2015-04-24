@@ -13,18 +13,18 @@ class DSF:
         O(E) in the worst case
     """
 
-    def __init__(self, g, s):
+    def __init__(self, G, s):
         self.s = s #source node in graph
-        self.edgeTo = [0] * g.get_number_vertices()
-        self.marked = [False] * g.get_number_vertices()
-        self.dsf(g, s)
+        self.edgeTo = [0] * G.V()
+        self.marked = [False] * G.V()
+        self.dsf(G, s)
 
-    def dsf(self, g, v):
+    def dsf(self, G, v):
         self.marked[v] = True
-        for w in g.get_adj_list(v):
+        for w in G.edges_vertex(v):
             if not self.marked[w]:
                 self.edgeTo[w] = v
-                self.dsf(g, w)
+                self.dsf(G, w)
 
     def is_path_present(self,v):
         return self.marked[v]

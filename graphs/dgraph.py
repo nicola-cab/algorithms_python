@@ -11,7 +11,6 @@ class directed_graph:
         for a generic undirect graph.
         The data sturcture used to represent the graph is a list of adjacency.
         """
-    
     def __init__(self, v):
         if v <= 0:
             raise Exception("number of vertices cannot be <= 0")
@@ -21,11 +20,15 @@ class directed_graph:
         for i in range(v):
             self.adj_list[i] = []
 
-def get_number_vertices(self):
-    return self.v
+    def V(self):
+        return self.v
     
-    def get_number_edges(self):
+    def E(self):
         return self.e
+        
+    def degree(self, v):
+        self.validate_vertex(v)
+        return len(self.adj_list[v])
     
     def add_edge(self,v,w):
         self.validate_vertex(v)
@@ -33,14 +36,10 @@ def get_number_vertices(self):
         self.e += 1
         self.adj_list[v].append(w)
     
-    def get_adj_list(self,v):
+    def edges_vertex(self,v):
         self.validate_vertex(v)
         return iterator(self.adj_list[v])
-    
-    def get_degree(self, v):
-        self.validate_vertex(v)
-        return len(self.adj_list[v])
-    
+        
     def validate_vertex(self,v):
         if v < 0 or v>=self.v:
             raise Exception("Index out of bound")

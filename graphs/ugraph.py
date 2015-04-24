@@ -17,11 +17,15 @@ class undirected_graph:
         for i in range(v):
             self.adj_list[i] = []
 
-    def get_number_vertices(self):
+    def V(self):
         return self.v
 
-    def get_number_edges(self):
+    def E(self):
         return self.e
+        
+    def degree(self, v):
+        self.validate_vertex(v)
+        return len(self.adj_list[v])
 
     def add_edge(self,v,w):
         self.validate_vertex(v)
@@ -30,14 +34,10 @@ class undirected_graph:
         self.adj_list[v].append(w)
         self.adj_list[w].append(v)
 
-    def get_adj_list(self,v):
+    def edges_vertex(self,v):
         self.validate_vertex(v)
         return iterator(self.adj_list[v])
-
-    def get_degree(self, v):
-        self.validate_vertex(v)
-        return len(self.adj_list[v])
-
+       
     def validate_vertex(self,v):
         if v < 0 or v>=self.v:
             raise Exception("Index out of bound")
