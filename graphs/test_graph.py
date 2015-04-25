@@ -77,16 +77,17 @@ def run_bsf(graph, s, d):
         for v in path:
             print( "node: ", v )
 
-def run_mst(G):
+def run_mst(G, algo_pick):
     """ 
     Compute MST using a greedy algorithm. 
     Internally MST uses Kruskal algorithm. 
     """
-    mst = MST(G)
+    mst = MST(G, algo_pick) 
     print("Entire graph:")
     for e in G.edges():
         print( e )
-    print("MST:")
+
+    print("MST")
     for e in mst.edges():
         print(e)
 
@@ -109,5 +110,8 @@ if __name__ == "__main__":
     print("------------------- running mst --------------------- ")
     we_graph = we_graph(5)
     set_weight_graph(we_graph)
-    check_graph_properties(we_graph) 
-    run_mst( we_graph )
+    check_graph_properties(we_graph)
+    print("-------")
+    run_mst( we_graph, 1 ) #run kruskal
+    print("-------") 
+    run_mst( we_graph, 0)  #run prim
