@@ -1,3 +1,4 @@
+#fix import stuff
 from collections import deque
 from .iterator import iterator
 class queue:

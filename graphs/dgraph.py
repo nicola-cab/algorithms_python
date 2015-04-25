@@ -30,7 +30,7 @@ class directed_graph:
         self.validate_vertex(v)
         return len(self.adj_list[v])
     
-    def add_edge(self,v,w):
+    def add_edge(self,v, w):
         self.validate_vertex(v)
         self.validate_vertex(w)
         self.e += 1

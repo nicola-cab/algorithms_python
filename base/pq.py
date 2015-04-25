@@ -1,4 +1,5 @@
-from .iterator import iterator #needed to add base. for python3.x ..
+#fix import stuff
+from .iterator import iterator 
 from .utils import less_comparator
 from .utils import greater_comparator
 
@@ -26,7 +27,7 @@ class pq:
         it inits a index variable in order to insert into pq
         """
         #note: using a list could potentially slow down the delete operation due link operations after a deletation. Python has heappq
-        self.__data  = [0] 
+        self.__data  = [None] 
         self.__comparator = comparator
         self.__size     = 0
     
@@ -38,9 +39,9 @@ class pq:
         """
         self.__size += 1 
         self.__data.append(elem)
-        self.__insert_heapify(self.__size)
+        self.__insert_sifting(self.__size)
 
-    
+         
     def delElem(self):
         """ 
         delete from the priority queue accordingly with the comparator chosen.
@@ -54,7 +55,7 @@ class pq:
         self.__data[1] = self.__data[self.__size]
         self.__size -= 1
         self.__data.pop()
-        self.__delete_heapify(1)
+        self.__delete_sifting(1)
         
         return key
     
@@ -77,6 +78,7 @@ class pq:
 
         return self.__data[1] #indexes start from 1
 
+
     def __iter__(self):
         """ iterate through priority queue using iterator utility """
         return iterator(self.__data[1:])
@@ -85,7 +87,7 @@ class pq:
     #  utilities methods #
     ######################
     
-    def __insert_heapify(self, k):
+    def __insert_sifting(self, k):
         """
             Insert could create keys unbalancing in the tree..
             Coping with this situation  means:
@@ -97,7 +99,7 @@ class pq:
             self.__data[k], self.__data[k//2] = self.__data[k//2], self.__data[k]
             k = k//2
 
-    def __delete_heapify(self, k):
+    def __delete_sifting(self, k):
         """ 
             delete introduce a potentially need to rebalance the tree.
             In this case it is needed walk through the tree or subtrees and heapify it:

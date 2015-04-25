@@ -1,7 +1,7 @@
 from base.iterator import iterator
-class we_graph:
+class weight_undirect_graph:
     """
-        Abstraction for a weighted edge graph
+        Abstraction for a undirect graph with weighted edges
     """
 
     def __init__(self, v):

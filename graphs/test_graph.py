@@ -2,12 +2,19 @@ import sys
 from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) ) 
 
+#graph data structures
 from ugraph import undirected_graph
-from we_graph import we_graph
-from w_edge import w_edge
+from weight_ugraph import weight_undirect_graph 
+from weight_dgraph import weight_direct_graph
+from edge import edge
+
+#graph algorithms
 from dsf import DSF
 from bsf import BSF
 from mst import MST
+from shortest_path import shortest_path
+#from shortest_path import bellman_ford
+#from max_flow import max_flow
 
 def set_graph(graph):
     graph.add_edge(0, 1)
@@ -19,15 +26,15 @@ def set_graph(graph):
     graph.add_edge(2, 4)
     graph.add_edge(3, 4)
 
-def set_weight_graph(graph):
-    e1 = w_edge(0,1,0.1)
-    e2 = w_edge(0,2,0.5)
-    e3 = w_edge(0,3,0.2)
-    e4 = w_edge(1,2,0.1)
-    e5 = w_edge(1,3,1.1)
-    e6 = w_edge(2,3,0.1)
-    e7 = w_edge(2,4,1.5)
-    e8 = w_edge(3,4,0.3) 
+def set_weight_undirect_graph(graph):
+    e1 = edge(0,1,0.1)
+    e2 = edge(0,2,0.5)
+    e3 = edge(0,3,0.2)
+    e4 = edge(1,2,0.1)
+    e5 = edge(1,3,1.1)
+    e6 = edge(2,3,0.1)
+    e7 = edge(2,4,1.5)
+    e8 = edge(3,4,0.3) 
     graph.add_edge(e1)
     graph.add_edge(e2)
     graph.add_edge(e3)
@@ -37,6 +44,29 @@ def set_weight_graph(graph):
     graph.add_edge(e7)
     graph.add_edge(e8)
 
+def set_weight_direct_graph(graph):
+    e1 = edge(0,1,0.1)
+    e2 = edge(0,2,0.5)
+    e3 = edge(0,3,0.2)
+    e4 = edge(1,2,0.1)
+    e5 = edge(1,3,1.1)
+    e6 = edge(2,3,0.1)
+    e7 = edge(2,4,1.5)
+    e8 = edge(3,4,0.3)
+    e9 = edge(4,3,0.2)
+    e10 = edge(3,1,10.0)
+    e11 = edge(2,1,1.1)
+    graph.add_edge(e1)
+    graph.add_edge(e2)
+    graph.add_edge(e3)
+    graph.add_edge(e4)
+    graph.add_edge(e5)
+    graph.add_edge(e6)
+    graph.add_edge(e7)
+    graph.add_edge(e8)
+    graph.add_edge(e9)
+    graph.add_edge(e10)
+    graph.add_edge(e11)
 
 def check_graph_properties(graph):
     print("Number of edges = ", graph.E())
@@ -96,22 +126,46 @@ if __name__ == "__main__":
     graph = undirected_graph(5)
     set_graph(graph)
     check_graph_properties(graph)
-    #run dsf
+
     print("------------------- running dsf --------------------- ")
     run_dsf(graph, 0, 4)
     run_dsf(graph, 1, 2) 
     run_dsf(graph, 4, 3)
     run_dsf(graph, 0, 0)
+
     print("------------------- running bsf --------------------- ")
     run_bsf(graph, 0, 4)
     run_bsf(graph, 1, 2)
     run_bsf(graph, 4, 3)
     run_bsf(graph, 0, 0)
+
     print("------------------- running mst --------------------- ")
-    we_graph = we_graph(5)
-    set_weight_graph(we_graph)
-    check_graph_properties(we_graph)
+    w_ugraph = weight_undirect_graph(5)
+    set_weight_undirect_graph(w_ugraph)
+    check_graph_properties(w_ugraph)
     print("-------")
-    run_mst( we_graph, 1 ) #run kruskal
+    run_mst( w_ugraph, 1 ) #run kruskal
     print("-------") 
-    run_mst( we_graph, 0)  #run prim
+    run_mst( w_ugraph, 0)  #run prim
+
+    print("------------------- running shortest path --------------------- ")
+    w_dgraph = weight_direct_graph(5)
+    set_weight_direct_graph(w_dgraph)
+    check_graph_properties(w_dgraph)
+    
+    print("Entire graph")
+    for e in w_dgraph.edges():
+        print(e)
+
+    print("-------")
+    print("Dijkstra")
+    sp = shortest_path(w_dgraph,0)
+    print(sp.exist_path(4))
+    for v in range(w_dgraph.V()):
+        if sp.exist_path(v):
+            print("Dist path from 0 to ", v, " is =", sp.get_dist(v))
+            print("Path is ")
+            for e in sp.get_path(v):
+                print(e)
+    print("-------")
+    print("Bellaman Ford")

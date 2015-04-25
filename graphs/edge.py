@@ -1,5 +1,5 @@
 from base.iterator import iterator
-class w_edge:
+class edge:
     """
         Genearal abstraction for a weighted edge.
     """
