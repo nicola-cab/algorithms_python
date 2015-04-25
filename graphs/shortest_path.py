@@ -4,8 +4,12 @@ from base.stack import stack
 
 class shortest_path:
 
-    def __init__(self, G, s):
-        """Dijkstra's shortest path algorithm"""
+    def __init__(self, G, s, choice = 1): 
+        """
+            Shortest path algorithm:
+            - 1 to execute Dijkstra
+            - 2 to execute Bellman Ford
+        """
     
         #support lists and pq
         self.__inf = float("inf")
@@ -15,7 +19,12 @@ class shortest_path:
         heapq.heappush(self.pq, (s,0.0))
         self.dist[s] = 0.0
 
-        self.__dijkstra(G,s)
+        if choice == 1: 
+            self.__dijkstra(G,s)
+        elif choice == 0:
+            self.__bellman_ford(G,s)
+        else:
+            raise Exception("Error selecting algorighm 1) Dijkstra 2) Bellman Ford")
 
     def get_dist(self, v):
         return self.dist[v]
@@ -32,6 +41,12 @@ class shortest_path:
         return p
 
     def __dijkstra(self, G, s):
+        """
+        Complexity is O(E Log V).
+        I am using an extra array to store verteces already visited.
+        Then I am wasting O(V) space. Using a Indexed PQ should solve this problem
+        Using a Fibonacci tree will improve time complexity.
+        """
         checked = [s]
         while self.pq:
             elem = heapq.heappop(self.pq)
@@ -39,15 +54,32 @@ class shortest_path:
 
     def __relax(self, G, vertex, checked):
         for e in G.edges_vertex(vertex):
-            v,w,weight = e
-            d = self.dist[v] + weight
-            if self.dist[w] > d:
-                self.dist[w] = d
-                self.path[w] = e
+            v,u,w = e
+            d = self.dist[v] + w
+            if self.dist[u] > d:
+                self.dist[u] = d
+                self.path[u] = e
                 if w not in checked:
-                    checked.append(w)
-                    heapq.heappush(self.pq, (w, d))
+                    checked.append(u)
+                    heapq.heappush(self.pq, (u, d))
 
-#def bellman_ford(G):
-#    """ Bellman Ford shortest path algorithm to cope to negative edges and loops"""
-#    pass
+    def __bellman_ford(self, G, s):
+        """
+        bellman ford algorithm allows processing of graphs with negative weight edges
+        Algorithm uses relax as such as Dijkstra. it applies relexation V-1 times.
+        Algorithm complexity is O(EV). 
+
+        """
+        for v in range(G.V()):
+            for e in G.edges_vertex(v):
+                v,u,w = e
+                d = self.dist[v] + w
+                if self.dist[u] > d:
+                    self.dist[u] = d
+                    self.path[u] = e
+
+        #check for cycle.
+        for e in G.edges():
+            v,u,w = e
+            if self.dist[v] + w < self.dist[u]:
+                raise Exception("Graph contains negative cycle")

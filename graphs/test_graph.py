@@ -68,6 +68,31 @@ def set_weight_direct_graph(graph):
     graph.add_edge(e10)
     graph.add_edge(e11)
 
+def set_negative_weight_direct_graph(graph):
+    e1 = edge(0,1,0.1)
+    e2 = edge(0,2,0.5)
+    e3 = edge(0,3,-0.2)
+    e4 = edge(1,2,0.1)
+    e5 = edge(1,3,1.1)
+    e6 = edge(2,3,0.1)
+    e7 = edge(2,4,-1.5)
+    e8 = edge(3,4,0.3)
+    e9 = edge(4,3,0.2)
+    e10 = edge(3,1,10.0)
+    e11 = edge(2,1,1.1)
+    graph.add_edge(e1)
+    graph.add_edge(e2)
+    graph.add_edge(e3)
+    graph.add_edge(e4)
+    graph.add_edge(e5)
+    graph.add_edge(e6)
+    graph.add_edge(e7)
+    graph.add_edge(e8)
+    graph.add_edge(e9)
+    graph.add_edge(e10)
+    graph.add_edge(e11)
+
+
 def check_graph_properties(graph):
     print("Number of edges = ", graph.E())
     print("Number of vertices = ", graph.V())
@@ -160,12 +185,28 @@ if __name__ == "__main__":
     print("-------")
     print("Dijkstra")
     sp = shortest_path(w_dgraph,0)
-    print(sp.exist_path(4))
+
     for v in range(w_dgraph.V()):
         if sp.exist_path(v):
             print("Dist path from 0 to ", v, " is =", sp.get_dist(v))
             print("Path is ")
             for e in sp.get_path(v):
                 print(e)
+
     print("-------")
     print("Bellaman Ford")
+    set_negative_weight_direct_graph(w_dgraph)
+    check_graph_properties(w_dgraph)
+    
+    print("Entire graph")
+    for e in w_dgraph.edges():
+        print(e)
+
+    sp = shortest_path(w_dgraph,0, 0) #run bellman_ford passing 0 as 3rd argument
+
+    for v in range(w_dgraph.V()):
+        if sp.exist_path(v):
+            print("Dist path from 0 to ", v, " is =", sp.get_dist(v))
+            print("Path is ")
+            for e in sp.get_path(v):
+                print(e)
