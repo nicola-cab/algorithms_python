@@ -13,8 +13,7 @@ from dsf import DSF
 from bsf import BSF
 from mst import MST
 from shortest_path import shortest_path
-#from shortest_path import bellman_ford
-#from max_flow import max_flow
+from max_flow import network_flow
 
 def set_graph(graph):
     graph.add_edge(0, 1)
@@ -92,23 +91,17 @@ def set_negative_weight_direct_graph(graph):
     graph.add_edge(e10)
     graph.add_edge(e11)
 
-
-def check_graph_properties(graph):
+def check_graph_properties(graph, vertices):
     print("Number of edges = ", graph.E())
     print("Number of vertices = ", graph.V())
-    print("Degree for node 0 = ", graph.degree(0))
-    print("Degree for node 1 = ", graph.degree(1))
-    print("Degree for node 2 = ", graph.degree(2))
-    print("Degree for node 3 = ", graph.degree(3))
-    print("Degree for node 4 = ", graph.degree(4))
-
-    print("Check adj list for node 0")
-    for v in graph.edges_vertex(0):
-        print(v)
-    print("Check adj list for node 1")
-    for v in graph.edges_vertex(1):
-        print(v)
-
+    for v in vertices:
+        print("Degree for node ", v, " is ", graph.degree(v))
+        print("Check adj list for node ", v)
+        for l in graph.edges_vertex(v):
+            print(l)
+#
+# Algorithm for graphs util functions
+#
 def run_dsf(graph, s, d):
     print("Running DSF algorithm")
     dsf = DSF(graph, s)
@@ -148,9 +141,10 @@ def run_mst(G, algo_pick):
 
 if __name__ == "__main__":
     #undirect graph test
-    graph = undirected_graph(5)
+    l = [x for x in range(5)]
+    graph = undirected_graph(len(l))
     set_graph(graph)
-    check_graph_properties(graph)
+    check_graph_properties(graph, l)
 
     print("------------------- running dsf --------------------- ")
     run_dsf(graph, 0, 4)
@@ -165,18 +159,18 @@ if __name__ == "__main__":
     run_bsf(graph, 0, 0)
 
     print("------------------- running mst --------------------- ")
-    w_ugraph = weight_undirect_graph(5)
+    w_ugraph = weight_undirect_graph(len(l))
     set_weight_undirect_graph(w_ugraph)
-    check_graph_properties(w_ugraph)
+    check_graph_properties(w_ugraph, l)
     print("-------")
     run_mst( w_ugraph, 1 ) #run kruskal
     print("-------") 
     run_mst( w_ugraph, 0)  #run prim
 
     print("------------------- running shortest path --------------------- ")
-    w_dgraph = weight_direct_graph(5)
+    w_dgraph = weight_direct_graph(len(l))
     set_weight_direct_graph(w_dgraph)
-    check_graph_properties(w_dgraph)
+    check_graph_properties(w_dgraph, l)
     
     print("Entire graph")
     for e in w_dgraph.edges():
@@ -196,7 +190,7 @@ if __name__ == "__main__":
     print("-------")
     print("Bellaman Ford")
     set_negative_weight_direct_graph(w_dgraph)
-    check_graph_properties(w_dgraph)
+    check_graph_properties(w_dgraph, l)
     
     print("Entire graph")
     for e in w_dgraph.edges():
@@ -210,3 +204,17 @@ if __name__ == "__main__":
             print("Path is ")
             for e in sp.get_path(v):
                 print(e)
+
+    print("------------------- running Max Flow --------------------- ")
+    v = [x for x in "sopqrt"]
+    g = network_flow(v)
+    g.add_edge('s','o',3)
+    g.add_edge('s','p',3)
+    g.add_edge('o','p',2)
+    g.add_edge('o','q',3)
+    g.add_edge('p','r',2)
+    g.add_edge('r','t',3)
+    g.add_edge('q','r',4)
+    g.add_edge('q','t',2)
+    check_graph_properties(g, v)
+    print("Max Flow = ", g.max_flow('s','t'))
