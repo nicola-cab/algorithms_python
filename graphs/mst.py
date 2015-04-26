@@ -29,11 +29,7 @@ class MST:
         - Add next edge to T mst unless this creates a cycle
         Total complexity E*Lg(V)
         """
-        l = []      
-        for v in range(G.V()):
-            l.append(v)
-        
-        djs = disjoint_set(l)
+        djs = disjoint_set([x for x in range(G.V())])
         edges = G.edges()
         edges.sort() # a priority queue would do the same job of sorting
         
