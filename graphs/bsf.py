@@ -8,7 +8,7 @@ class BSF:
     def __init__(self, G, s):
         self.s = s
         self.marked = [False]*G.V()
-        self.distTo = [-1]*G.V()
+        self.distTo = [0]*G.V()
         self.edgeTo = [0]*G.V()
         self.bsf(G,s)
 
