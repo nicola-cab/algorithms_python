@@ -60,10 +60,7 @@ class network_flow:
         path = self.__find_path(source, sink, [])
         while path != None:
             #compute flow left for edges
-            flows = []
-            for e in path:
-                v,u,c = e
-                flows.append( c - self.flow[e])
+            flows = [e.weight - self.flow[e] for e in path]
 
             #pick min flow
             f = min(flows)

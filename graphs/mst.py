@@ -35,7 +35,7 @@ class MST:
         
         for e in edges:
             v,w,weight = e
-            if djs.find(v) != djs.find(w):
+            if not djs.connect(v,w): 
                 djs.union(v,w)
                 self.mst.append(e)
                 self.weight += e.weight
