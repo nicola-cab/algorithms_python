@@ -9,7 +9,7 @@ class trie:
     """
     
     class node:
-        def __init__(self, R=256): #by default extended ascii
+        def __init__(self, R=128): #by default extended ascii
             self.next = [None]*R #list of children nodes
             self.R = R
             self.val = None
@@ -41,13 +41,18 @@ class trie:
         return self.__get__(self.root, key, 0) != None
 
     def prefix_strings(self, prefix):
-        l = []
         node = self.__get__(self.root, prefix, 0)
-        if node:
-            pre = self.__trie_nav( node.next )
-
-        print(pre)
-        return l
+        l_prefix = [ [] for n in node.next if n ]
+        i,j = 0,0
+        for n in node.next:
+            pre = []
+            if n:
+                pre.append(chr(i)) #append current key 
+                pre.extend(self.__trie_nav( node.next[i].next )) #nav tree to find other keys
+                l_prefix[j].extend(pre)
+                j += 1
+            i += 1
+        return l_prefix
     
     #
     #   private implementation
@@ -168,6 +173,8 @@ if __name__ == "__main__":
     #test prefix strings
     t.put("Dog", 1)
     t.put("Door",2)
-    t.prefix_strings("Do")
+    prefix = t.prefix_strings("Do")
+    for p in prefix:
+        print("Base: Do -- Prefix: ",p, " = ", "Do" + ''.join(p))
         
     
