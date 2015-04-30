@@ -9,7 +9,7 @@ class trie:
     """
     
     class node:
-        def __init__(self, R=128): #by default extended ascii
+        def __init__(self, R=128): #all lower case letters
             self.next = [None]*R #list of children nodes
             self.R = R
             self.val = None
@@ -77,7 +77,7 @@ class trie:
             return None
         if d == len(key):
             return node
-        i = ord(key[d])
+        i = self.__ord(key[d])
         return self.__get__(node.next[i], key, d+1)
 
     def __delete__(self, node, key, d):
@@ -115,6 +115,9 @@ class trie:
                     q.append(e.next)
                 i += 1 
         return res
+    
+    def __index__(self, c):
+        return ord(c) - ord('a')
 
 if __name__ == "__main__":
 
