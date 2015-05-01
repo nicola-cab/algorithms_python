@@ -10,12 +10,12 @@ class tst:
 
     class node:
         def __init__(self):
-            self.n = 0
             self.key = 0
-            self.val = 0
+            self.val = None
             self.left, self.mid, self.right = None, None, None
 
     def __init__(self):
+        self.n = 0
         self.root = None
     
     def size(self):
@@ -26,6 +26,7 @@ class tst:
 
     def put(self, key, value):
         self.root = self.__put__(self.root, key, value, 0)
+        self.n += 1 
     
     def get(self, key):
         node = self.__get__(self.root, key, 0)
@@ -35,6 +36,64 @@ class tst:
     
     def contains(self, key):
         return self.__get__(self.root, key, 0) != None
+        
+    def prefix_match(self, prefix):
+        """
+            return all the keys with a given prefix
+        """
+        node = self.__get__(self.root, prefix, 0)
+        if node == None:
+            raise Exception("Prefix not found")
+        if node.val != None:
+            return [prefix]
+        else:
+            list = []
+            self.__tst_nav(node.mid, prefix, list)
+            return list
+    
+    def wildcard_match(self, wildcard):
+        """
+            keys that match wildcard passed. eg: .he --> she and the
+        """
+        pass
+    
+    def longest_prefix(self, query):
+        """
+            string that is the longest prefix. eg sheel --> sheels 
+        """
+        if query == None or len(query) == 0:
+            return None
+        
+        node = self.root
+        length = 0
+        i = 0
+        while node != None and i < len(query):
+            c = query[i]
+            if   c < node.key: node = node.left
+            elif c > node.key: node = node.right
+            else:
+                i += 1
+                if node.val != None: 
+                    length = i
+                node = node.mid
+        return query[:length]        
+   
+    def __tst_nav(self, node, prefix, list):
+        """
+            recursively traverse the tst and grab as much keys as possible in order to 
+            find all the prefix strings
+        """
+        if node == None:
+            return
+        
+        self.__tst_nav(node.left, prefix, list)
+        if node != None:
+            prefix += node.key
+            list.append( prefix )
+        self.__tst_nav(node.mid, prefix, list)
+        prefix = prefix[:-1]
+        self.__tst_nav(node.right, prefix, list)
+       
 
     def __put__(self, node, key, value, d):
         c = key[d]
@@ -65,16 +124,18 @@ class tst:
             return node
         
 if __name__ == "__main__":
-    str = "hello"
+    str  = "hello"
     str1 = "world"
     str2 = "Can"
     str3 = "I"
     str4 = "speak"
     str5 = "with"
     str6 = "you"
+    str7 = "sponge"
+    str8 = "spongebob"
 
     t = tst()
-    strs = [str, str1, str2, str3, str4, str5, str6]
+    strs = [str, str1, str2, str3, str4, str5, str6, str7, str8]
     for s in strs:
         print("Putting: ", s)
         t.put(s, 10)
@@ -82,3 +143,13 @@ if __name__ == "__main__":
     for s in strs:
         print("Searching for :", s)
         print(t.contains(s))
+        
+    l = t.prefix_match("sp")
+    print("List of keys that start with sp")
+    print(l)
+    
+    long = t.longest_prefix("sponge")
+    print("Longest prefix = ", long)
+    long = t.longest_prefix("spongebob4")
+    print("Longest prefix = ", long)
+    
