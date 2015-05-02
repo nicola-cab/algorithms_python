@@ -51,11 +51,13 @@ class tst:
             self.__tst_nav(node.mid, prefix, list)
             return list
     
-    def wildcard_match(self, wildcard):
+    def wildcard_match(self, pattern):
         """
             keys that match wildcard passed. eg: .he --> she and the
         """
-        pass
+        list = []
+        self.__match_tst_nav(self.root, "", pattern, 0, list)
+        return list
     
     def longest_prefix(self, query):
         """
@@ -93,7 +95,26 @@ class tst:
         self.__tst_nav(node.mid, prefix, list)
         prefix = prefix[:-1]
         self.__tst_nav(node.right, prefix, list)
-       
+    
+    def __match_tst_nav(self, node, prefix, pattern, d, list):
+        """ match key with pattern """
+
+        if node == None: return None
+        #extract char
+        c = pattern[d]
+        #left
+        if c == '.' or c < node.key:
+            self.__match_tst_nav(node.left, prefix,  pattern, d, list)
+        #center
+        if c == '.' or c == node.key:
+            if d == len(pattern) -1 and node!=None:
+                list.append(prefix + node.key)
+            if d < len(pattern) -1:
+                self.__match_tst_nav(node.mid, prefix + node.key, pattern, d+1 , list)
+                prefix[:-1]
+        #right
+        if c == '.' or c > node.key:
+            self.__match_tst_nav(node.right, prefix, pattern, d, list)
 
     def __put__(self, node, key, value, d):
         c = key[d]
@@ -133,9 +154,11 @@ if __name__ == "__main__":
     str6 = "you"
     str7 = "sponge"
     str8 = "spongebob"
+    str9 = "the"
+    str10 = "she"
 
     t = tst()
-    strs = [str, str1, str2, str3, str4, str5, str6, str7, str8]
+    strs = [str, str1, str2, str3, str4, str5, str6, str7, str8, str9, str10]
     for s in strs:
         print("Putting: ", s)
         t.put(s, 10)
@@ -152,4 +175,7 @@ if __name__ == "__main__":
     print("Longest prefix = ", long)
     long = t.longest_prefix("spongebob4")
     print("Longest prefix = ", long)
-    
+
+    print("Print list of keys match wild card")
+    list = t.wildcard_match(".he")
+    print(list)
