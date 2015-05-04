@@ -6,5 +6,19 @@ def compute_table( pattern ):
     for j in range(M):
         right[ ord(pattern[j]) ] = j
 
+    return right
+
 def pattern_matching(str, pattern):
-    pass
+    N = len(str)
+    M = len(pattern)
+    table = compute_table(pattern)
+    skip = 0
+    for i in (0, N-M, skip):
+        skip = 0
+        for j in range(M-1, -1, -1):
+            if pattern[i] != str[i+j]:
+                pass
+
+if __name__ == "__main__":
+    table = compute_table("ciao")
+    print(table)
