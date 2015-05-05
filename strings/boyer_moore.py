@@ -13,25 +13,22 @@ def pattern_matching(str, pattern):
     M = len(pattern)
     table = compute_table(pattern)
     skip = 0
-    for i in (0, N-M, skip):
-        #skip index
+    i = 0
+    while i <= N-M:
         skip = 0
-        print( i )
-        #scroll pattern string from right to left
         for j in range(M-1, -1, -1):
             if pattern[j] != str[i+j]:
                 skip = max(1, j - table[ord(str[i+j])])
                 break
-        #if skip is 0, than return index found
-        print("Skip =", skip)
         if skip == 0: 
-            return i 
+            return i
+        i += skip
 
     raise Exception("Pattern not found")
 
 if __name__ == "__main__":
     try:
-        i = pattern_matching("hi I am a pattern matching test", "am")
+        i = pattern_matching("hi I am a pattern matching test", "test")
         print("Pattern found at index =", i)
     except Exception as e:
         print(e)

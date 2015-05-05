@@ -59,7 +59,7 @@ class shortest_path:
             if self.dist[u] > d:
                 self.dist[u] = d
                 self.path[u] = e
-                if w not in checked:
+                if u not in checked:
                     checked.append(u)
                     heapq.heappush(self.pq, (u, d))
 
